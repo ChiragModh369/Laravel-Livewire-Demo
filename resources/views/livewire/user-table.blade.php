@@ -94,8 +94,8 @@
                                                         <img src="{{ asset('storage/' . $user->profile_picture) }}" width="40"
                                                             height="40" class="rounded-circle me-2">
                                                     @else
-                                                        <img src="{{ asset('assets/images/users/user-dummy-img.jpg') }}" width="40" height="40"
-                                                            class="rounded-circle me-2">
+                                                        <img src="{{ asset('assets/images/users/user-dummy-img.jpg') }}"
+                                                            width="40" height="40" class="rounded-circle me-2">
                                                     @endif
 
                                                     {{-- User Name --}}
@@ -118,12 +118,25 @@
                                                 <a href="{{ route('users.edit', $user->id) }}" wire:navigate
                                                     class="btn btn-sm btn-warning">Edit</a>
                                                 {{-- <button class="btn btn-sm btn-danger"
-                                                    wire:click="delete({{ $user->id }})"
-                                                    wire:confirm="Are you sure?">Delete</button> --}}
-                                                <button class="btn btn-sm btn-danger"
                                                     wire:click="confirmDelete({{ $user->id }})">
                                                     Delete
+                                                </button> --}}
+                                                <button class="btn btn-sm btn-danger"
+                                                    wire:click="confirmDelete({{ $user->id }})" wire:loading.attr="disabled"
+                                                    wire:target="delete({{ $user->id }})">
+
+                                                    <span wire:loading.remove wire:target="delete({{ $user->id }})">
+                                                        Delete
+                                                    </span>
+
+                                                    <span wire:loading wire:target="delete({{ $user->id }})">
+                                                        <span class="spinner-border spinner-border-sm me-1" role="status"
+                                                            aria-hidden="true"></span>
+                                                        Deleting...
+                                                    </span>
                                                 </button>
+
+
                                             </td>
                                         </tr>
                                     @empty
