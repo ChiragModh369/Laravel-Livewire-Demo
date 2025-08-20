@@ -77,7 +77,7 @@ class UserTable extends Component
         }
 
 
-        $users = $query->orderBy($this->sortField, $this->sortDirection)->paginate(env('PAG'));
+        $users = $query->orderBy($this->sortField, $this->sortDirection)->paginate(env('PAGINATION_LIMIT'));
 
         return view('livewire.user-table', compact('users'));
     }
