@@ -12,15 +12,28 @@ use Livewire\WithFileUploads;
 
 class UserEdit extends Component
 {
-
     use WithFileUploads;
 
-    public $user_id, $name, $email, $is_active = true;
-    public $countryId, $stateId;
+    public $user_id;
+
+    public $name;
+
+    public $email;
+
+    public $is_active = true;
+
+    public $countryId;
+
+    public $stateId;
+
     public $countries = [];
+
     public $states = [];
+
     public $profile_picture;      // Existing file (path)
+
     public $new_profile_picture;
+
     protected $rules = [
         'name' => 'required|min:3',
         // 'email' => 'required|email',
@@ -54,7 +67,6 @@ class UserEdit extends Component
         $this->states = State::where('country_id', $value)->orderBy('name')->get();
         $this->stateId = null; // reset state
     }
-
 
     public function update()
     {

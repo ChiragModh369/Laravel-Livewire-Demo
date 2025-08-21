@@ -8,7 +8,13 @@ use Livewire\Component;
 
 class UserCreate extends Component
 {
-    public $name, $email, $password, $is_active = true;
+    public $name;
+
+    public $email;
+
+    public $password;
+
+    public $is_active = true;
 
     protected $rules = [
         'name' => 'required|min:3',
@@ -25,10 +31,11 @@ class UserCreate extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
-            'is_active' => $this->is_active
+            'is_active' => $this->is_active,
         ]);
 
         session()->flash('success', 'User created successfully!');
+
         // return redirect()->route('users.index');
         return $this->redirect(route('users.index'), navigate: true);
     }

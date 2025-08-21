@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,7 @@ class StateSeeder extends Seeder
      */
     public function run(): void
     {
-         $states = [
+        $states = [
             ['country_id' => 1, 'name' => 'California', 'code' => 'CA'],
             ['country_id' => 1, 'name' => 'New York', 'code' => 'NY'],
             ['country_id' => 2, 'name' => 'Gujarat', 'code' => 'GJ'],

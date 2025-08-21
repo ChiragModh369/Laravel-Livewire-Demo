@@ -11,9 +11,13 @@ class UserTable extends Component
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = '';
+
     public $is_active = true;
+
     public $sortField = 'id';
+
     public $sortDirection = 'desc';
 
     protected $paginationTheme = 'bootstrap';
@@ -22,6 +26,7 @@ class UserTable extends Component
     {
         $this->resetPage();
     }
+
     public function updatingStatusFilter()
     {
         $this->resetPage();
@@ -30,7 +35,7 @@ class UserTable extends Component
     public function toggleStatus($id)
     {
         $user = User::findOrFail($id);
-        $user->is_active = !$user->is_active;
+        $user->is_active = ! $user->is_active;
         $user->save();
 
         $this->dispatch('showToastr', type: 'success', message: 'User status updated successfully!');
@@ -59,6 +64,7 @@ class UserTable extends Component
             $this->sortDirection = 'asc';
         }
     }
+
     public function render()
     {
         $query = User::query();
@@ -66,8 +72,8 @@ class UserTable extends Component
         // Search filter
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('email', 'like', '%'.$this->search.'%');
             });
         }
 
@@ -75,7 +81,6 @@ class UserTable extends Component
         if ($this->statusFilter !== '') {
             $query->where('is_active', $this->statusFilter);
         }
-
 
         $users = $query->orderBy($this->sortField, $this->sortDirection)->paginate(env('PAGINATION_LIMIT'));
 
