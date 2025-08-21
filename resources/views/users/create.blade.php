@@ -1,4 +1,4 @@
 @extends('layouts.master')
 @section('content')
-    @livewire('user-create')
+    @livewire('users.user-create')
 @endsection

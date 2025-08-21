@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
@@ -79,6 +79,6 @@ class UserTable extends Component
 
         $users = $query->orderBy($this->sortField, $this->sortDirection)->paginate(env('PAGINATION_LIMIT'));
 
-        return view('livewire.user-table', compact('users'));
+        return view('livewire.users.user-table', compact('users'));
     }
 }

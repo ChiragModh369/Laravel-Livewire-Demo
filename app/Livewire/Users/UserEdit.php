@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
 use App\Models\Country;
 use App\Models\State;
@@ -96,6 +96,6 @@ class UserEdit extends Component
 
     public function render()
     {
-        return view('livewire.user-edit');
+        return view('livewire.users.user-edit');
     }
 }
