@@ -57,7 +57,7 @@
                             <table class="table table-hover table-nowrap align-middle mb-0">
                                 <thead>
                                     <tr>
-                                        <th wire:click="sortBy('id')" style="cursor:pointer"># @if($sortField === 'id')
+                                        <th wire:click="sortBy('id')" style="cursor:pointer">S/N @if($sortField === 'id')
                                             @if($sortDirection === 'asc') ↑ @else ↓ @endif
                                         @endif
                                         </th>
