@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
             return view('users.edit', compact('user'));
         })->name('edit');
     });
+
+    Route::get('/user-fields', function () {
+        return view('users.user-fields');
+    })->name('user-fields');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
