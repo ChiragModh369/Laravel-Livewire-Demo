@@ -34,6 +34,7 @@
     </div>
     @include("layouts.script")
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

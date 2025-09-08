@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () {
             return view(view: 'users.index');
         })->name('index');
+        Route::get('/datatable',[UserController::class, 'index'])->name('datatable');
+
 
         Route::get('/create', action: function () {
             return view('users.create');
