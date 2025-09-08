@@ -26,8 +26,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () {
             return view(view: 'users.index');
         })->name('index');
-        Route::get('/datatable',[UserController::class, 'index'])->name('datatable');
-
+        // Datatable Routes
+        Route::get('/datatable', [UserController::class, 'index'])->name('datatable');
+        Route::post('/toggle-status', [UserController::class, 'toggleStatus'])
+            ->name('toggle-status');
+        Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
 
         Route::get('/create', action: function () {
             return view('users.create');

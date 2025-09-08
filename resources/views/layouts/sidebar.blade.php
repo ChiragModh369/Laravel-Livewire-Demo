@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" ... wire:current="active" href="{{ route('users.datatable') }}" wire:navigate>
+                    <a class="nav-link menu-link" ... wire:current="active" href="{{ route('users.datatable') }}">
                         <i class="las la-user"></i> <span data-key="t-users-datatable">Users Datatable</span>
                     </a>
                 </li>

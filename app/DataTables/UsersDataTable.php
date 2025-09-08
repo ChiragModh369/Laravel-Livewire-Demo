@@ -14,18 +14,30 @@ class UsersDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))->addIndexColumn()->setRowId('id');
+        return (new EloquentDataTable($query))->addIndexColumn()->editColumn('is_active', function ($user) {
+            return view('users.partials.toggle-status', compact('user'))->render();
+        })
+            ->addColumn('action', function ($user) {
+                return view('users.partials.action-buttons', compact('user'))->render();
+            })
+            ->rawColumns(['is_active', 'action']);
     }
 
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model->newQuery();
+
+        if (request()->filled('is_active')) {
+            $query->where('is_active', request('is_active'));
+        }
+
+        return $query;
     }
 
     public function html(): HtmlBuilder
     {
         $pagination = config('datatables.pagination');
-        
+
         return $this->builder()
             ->setTableId('users-table')
             ->columns($this->getColumns())
@@ -71,8 +83,13 @@ class UsersDataTable extends DataTable
                 ->addClass('text-center'),
             Column::make('name'),
             Column::make('email'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('is_active')->title('Status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(120)
+                ->addClass('text-center')
+                ->title('Actions'),
         ];
     }
 

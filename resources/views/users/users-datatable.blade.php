@@ -42,24 +42,19 @@
             </div>
 
             <!-- search bar-->
-            {{-- <div class="row mb-3 mt-3">
+            <div class="row mb-3 mt-3">
                 <div class="col-12">
-                    <form method="GET" action="">
-                        <div class="row g-2 align-items-end">
-                            <div class="col-md-3">
-                                <input type="text" wire:model.live="search" class="form-control" placeholder="Search...">
-                            </div>
-                            <div class="col-md-2">
-                                <select wire:model.live="statusFilter" class="form-select">
-                                    <option value="">All</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-2">
+                            <select id="status-filter" class="form-select">
+                                <option value="">All Status</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="row">
                 <div class="col-xl-12">
@@ -76,5 +71,88 @@
     </div>
     @push('scripts')
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+        <script>
+            $(document).ready(function () {
+                let table = window.LaravelDataTables['users-table'];
+
+                // Pass filter params in ajax request
+                table.on('preXhr.dt', function (e, settings, data) {
+                    data.is_active = $('#status-filter').val();
+                });
+
+                // Trigger reload on filter change
+                $('#status-filter').on('change keyup', function () {
+                    table.ajax.reload();
+                });
+            });
+
+            $(document).on('change', '.toggle-status', function () {
+                let userId = $(this).data('id');
+                let checkbox = $(this);
+                let label = $(this).siblings('label');
+
+                $.ajax({
+                    url: "{{ route('users.toggle-status') }}",
+                    type: "POST",
+                    data: {
+                        id: userId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            label.text(response.status);
+                        }
+                    },
+                    error: function () {
+                        alert("Something went wrong!");
+                        checkbox.prop('checked', !checkbox.prop('checked')); // rollback toggle
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-user', function () {
+                let url = $(this).data('url');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This action cannot be undone!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function () {
+                                $('#users-table').DataTable().ajax.reload();
+
+                                Swal.fire(
+                                    "Deleted!",
+                                    "User has been deleted.",
+                                    "success"
+                                );
+                            },
+                            error: function () {
+                                Swal.fire(
+                                    "Error!",
+                                    "Something went wrong while deleting.",
+                                    "error"
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+
+        </script>
     @endpush
 @endsection
